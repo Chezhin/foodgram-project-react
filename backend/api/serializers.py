@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
-from recipes.models import (AmountIngredient, Favorite, Follow, Ingredient,
+from recipes.models import (AmountIngredient, Favorite, Ingredient,
                             Recipe, ShoppingList, Tag)
 from users.serializers import UserSerializer
 
@@ -21,35 +21,6 @@ class SimpleRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
-
-
-class UserSubscribeSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для вывода авторов на которых подписан
-    текущий пользователь.
-    """
-
-    email = serializers.ReadOnlyField(source='author.email')
-    username = serializers.ReadOnlyField(source='author.username')
-    first_name = serializers.ReadOnlyField(source='author.first_name')
-    last_name = serializers.ReadOnlyField(source='author.last_name')
-    is_subscribed = serializers.SerializerMethodField()
-    recipes = SimpleRecipeSerializer(source='author.recipes', many=True)
-    recipes_count = serializers.SerializerMethodField()
-
-    class Meta:
-        model = User
-        fields = ('email', 'id', 'username', 'first_name', 'last_name',
-                  'is_subscribed', 'recipes', 'recipes_count')
-
-    def get_is_subscribed(self, obj):
-        return Follow.objects.filter(
-            user=obj.user, author=obj.author
-        ).exists()
-
-    def get_recipes_count(self, obj):
-        return obj.author.recipes.count()
-
 
 
 class TagSerializer(serializers.ModelSerializer):
