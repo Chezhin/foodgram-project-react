@@ -87,13 +87,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def favorite(self, request, pk=None):
         if request.method == 'POST':
-            return self.recipe_post_method(
+            return self._recipe_post_method(
                 request, FavoritesSerializer, pk
             )
 
     @favorite.mapping.delete
     def delete_favorite(self, request, pk=None):
-        return self.recipe_delete_method(
+        return self._recipe_delete_method(
             request, Favorite, pk
         )
 
@@ -104,13 +104,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def shopping_cart(self, request, pk=None):
         if request.method == 'POST':
-            return self.recipe_post_method(
+            return self._recipe_post_method(
                 request, ShoppingListSerializer, pk
             )
 
     @shopping_cart.mapping.delete
     def delete_shopping_cart(self, request, pk=None):
-        return self.recipe_delete_method(
+        return self._recipe_delete_method(
             request, ShoppingList, pk
         )
 

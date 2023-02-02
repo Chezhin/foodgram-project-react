@@ -16,7 +16,7 @@ class SimpleRecipeSerializer(serializers.ModelSerializer):
     Минимальный набор полей для определенных эндпоинтов.
     """
 
-    image = Base64ImageField()
+    image = Base64ImageField(max_length=None, use_url=True)
 
     class Meta:
         model = Recipe
@@ -196,7 +196,6 @@ class CreateUpdateRecipeSerializer(serializers.ModelSerializer):
         recipe = Recipe.objects.create(image=image, text=text, **validated_data)
         recipe.tags.set(tags)
         self.create_ingredients(ingredients, recipe)
-        print(f'this is {self}')
         return recipe
 
     def update(self, instance, validated_data):
@@ -224,7 +223,7 @@ class FavoritesSerializer(serializers.ModelSerializer):
 
     id = serializers.ReadOnlyField(source='recipe.id')
     name = serializers.ReadOnlyField(source='recipe.name')
-    image = Base64ImageField(source='recipe.image', read_only=True)
+    image = Base64ImageField(read_only=True)
     cooking_time = serializers.ReadOnlyField(source='recipe.cooking_time')
 
     class Meta:
