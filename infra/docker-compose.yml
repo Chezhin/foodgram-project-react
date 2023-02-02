@@ -7,17 +7,21 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env
+    networks:
+      - foodgram_network
 
   backend:
     image: chezhin/foodgram_backend
     restart: always
     volumes:
       - static_value:/app/static/django/
-      - media_value:/app/media/django/
+      - media_value:/app/media/
     depends_on:
       - db
     env_file:
       - ./.env
+    networks:
+      - foodgram_network
 
   frontend:
     build:
@@ -25,8 +29,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
-    depends_on:
-      - backend
+    networks:
+      - foodgram_network
 
   nginx:
     image: nginx:1.19.3
@@ -38,11 +42,17 @@ services:
       - ../backend:/usr/share/nginx/html/backend/
       - ../docs/:/usr/share/nginx/html/api/docs/
       - static_value:/var/html/static/django/
-      - media_value:/var/html/media/django/
+      - media_value:/var/html/media/
     depends_on:
       - backend
     env_file:
       - ./.env
+    networks:
+      - foodgram_network
+
+networks:
+  foodgram_network:
+    driver: bridge
 
 volumes:
   static_value:
