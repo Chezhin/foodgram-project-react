@@ -1,17 +1,14 @@
+from api.paginators import PageLimitPagination
+from api.permissions import OwnerOrAdminOrReadOnly
 from django.conf import settings as django_settings
 from django.contrib.auth import get_user_model
-
 from djoser.views import UserViewSet as DjoserUserViewSet
+from recipes.models import Follow
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-from recipes.models import Follow
-
-from api.paginators import PageLimitPagination
-from api.permissions import OwnerOrAdminOrReadOnly
 
 from .serializers import UserSerializer, UserSubscribeSerializer
 

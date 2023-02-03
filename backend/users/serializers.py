@@ -3,10 +3,8 @@ from djoser.conf import settings
 from djoser.serializers import (SetPasswordSerializer, UserCreateSerializer,
                                 UserSerializer)
 from drf_extra_fields.fields import Base64ImageField
-from rest_framework import serializers
-
 from recipes.models import Follow, Recipe
-
+from rest_framework import serializers
 
 User = get_user_model()
 
