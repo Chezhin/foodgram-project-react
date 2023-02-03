@@ -35,10 +35,12 @@ docker-compose exec backend python manage.py collectstatic --no-input
 docker-compose exec backend python manage.py createsuperuser
 ```
 
+Суперюзер уже создан, поэтому эту команду можно пропустить
+
 ### Данные для входа:
 
 Проект запущен и доступен по [адресу](http://84.201.140.189/)
-Суперюзер уже создан, поэтому последнюю команду можно пропустить.
+
 Почта: post@mail.ru Пароль: billkaulitz666
 
 ### Автор: Руслан Чежин.
