@@ -3,6 +3,13 @@ from django.contrib import admin
 from .models import AmountIngredient, Favorite, Follow, Ingredient, Recipe, Tag
 
 
+class AmountIngredientInline(admin.TabularInline):
+    model = AmountIngredient
+    can_delete = False
+    autocomplete_fields = ['ingredient']
+    extra = 1
+
+
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'measurement_unit')
     search_fields = ('name',)
@@ -11,7 +18,9 @@ class IngredientAdmin(admin.ModelAdmin):
 
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('author', 'name', 'favorited')
+    filter_horizontal = ('tags',)
     list_filter = ('author', 'name', 'tags')
+    inlines = (AmountIngredientInline,)
 
     def favorited(self, obj):
         return Favorite.objects.filter(recipe=obj).count()

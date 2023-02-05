@@ -166,6 +166,17 @@ class CreateUpdateRecipeSerializer(serializers.ModelSerializer):
             'cooking_time',
         )
 
+    def validate(self, data):
+        list_ingr = [item['ingredient'] for item in data['ingredients']]
+        all_ingredients, distinct_ingredients = (
+            len(list_ingr), len(set(list_ingr)))
+
+        if all_ingredients != distinct_ingredients:
+            raise serializers.ValidationError(
+                {'error': 'Ингредиенты должны быть уникальными'}
+            )
+        return data
+
     def get_is_favorited(self, obj):
         request = self.context.get('request')
         if request.user.is_authenticated:

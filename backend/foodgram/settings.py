@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'djoser',
     'django_filters',
-    'users',
-    'recipes',
+    'users.apps.UsersConfig',
+    'recipes.apps.RecipesConfig',
     'api',
 ]
 
@@ -102,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 

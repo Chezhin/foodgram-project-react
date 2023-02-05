@@ -53,7 +53,7 @@ class Recipe(models.Model):
         User,
         on_delete=models.CASCADE,
         null=True,
-        related_name='recipes'
+        related_name='recipes',
     )
     name = models.CharField(
         'Название',

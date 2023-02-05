@@ -125,10 +125,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
             ingredients_amount__in=ingredients
         ).annotate(total=Sum('ingredients_amount__amount'))
 
+        response_content = (
+            'Список покупок\n\n'
+        )
+
         lines = [f'{ing_type.name}, {ing_type.total}'
                  f' {ing_type.measurement_unit}' for ing_type in ing_types]
         filename = f'{user.username}_shopping_list.txt'
-        response_content = '\n'.join(lines)
+        response_content += '\n'.join(lines)
         response = HttpResponse(response_content, content_type='text/plain')
         response['Content-Disposition'] = f'attachment; filename={filename}'
         return response
