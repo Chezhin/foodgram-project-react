@@ -1,4 +1,5 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 
 from .models import AmountIngredient, Favorite, Follow, Ingredient, Recipe, Tag
 
@@ -10,7 +11,8 @@ class AmountIngredientInline(admin.TabularInline):
     extra = 1
 
 
-class IngredientAdmin(admin.ModelAdmin):
+@admin.register(Ingredient)
+class IngredientAdmin(ImportExportModelAdmin):
     list_display = ('name', 'measurement_unit')
     search_fields = ('name',)
     list_filter = ('name',)
@@ -36,7 +38,7 @@ class AmountIngredientAdmin(admin.ModelAdmin):
     list_display = ('recipe', 'ingredient', 'amount')
 
 
-admin.site.register(Ingredient, IngredientAdmin)
+#admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(AmountIngredient, AmountIngredientAdmin)
