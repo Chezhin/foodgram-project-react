@@ -54,6 +54,7 @@ class Recipe(models.Model):
         on_delete=models.CASCADE,
         null=True,
         related_name='recipes',
+        verbose_name='Автор',
     )
     name = models.CharField(
         'Название',
@@ -78,6 +79,10 @@ class Recipe(models.Model):
     cooking_time = models.PositiveIntegerField(
         verbose_name='Время приготовления',
         default=1,
+        validators=(MinValueValidator(
+            limit_value=1,
+            message='Время приготовления не может быть 0.'),
+        )
     )
     pub_date = models.DateTimeField(
         verbose_name='Дата публикации',
