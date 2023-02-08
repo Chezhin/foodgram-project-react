@@ -42,12 +42,8 @@ class TagListField(serializers.RelatedField):
         }
 
     def to_internal_value(self, data):
-        try:
-            return Tag.objects.get(id=data)
-        except ObjectDoesNotExist:
-            raise serializers.ValidationError(
-                'Объект не существует.'
-            )
+        tag = get_object_or_404(Tag, id=data)
+        return tag
 
 
 class IngredientSerializer(serializers.ModelSerializer):
