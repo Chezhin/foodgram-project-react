@@ -40,10 +40,10 @@ class UserViewSet(DjoserUserViewSet):
                 return Response({'error': 'Невозможно подписаться на себя'},
                                 status=status.HTTP_400_BAD_REQUEST)
         
-            follow = Follow.objects.create(user=user, author=author)
             serializer = UserSubscribeSerializer(
-                follow, context={'request': request}
+                author, context={'request': request}
             )
+            Follow.objects.create(user=user, author=author)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         if request.method == 'DELETE':
@@ -59,7 +59,7 @@ class UserViewSet(DjoserUserViewSet):
     )
     def subscriptions(self, request):
         user = request.user
-        queryset = Follow.objects.filter(user=user)
+        queryset = User.objects.filter(following__user=user)
         pages = self.paginate_queryset(queryset)
         serializer = UserSubscribeSerializer(
             pages,

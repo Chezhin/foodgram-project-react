@@ -23,9 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'is_subscribed',
-            'password',
         )
-        extra_kwargs = {'password': {'write_only': True}}
         read_only_fields = ('is_subscribed',)
 
     def get_is_subscribed(self, obj):
@@ -71,29 +69,20 @@ class SimpleRecipeSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'image', 'cooking_time')
 
 
-class UserSubscribeSerializer(serializers.ModelSerializer):
+class UserSubscribeSerializer(UserSerializer):
     """
     Сериализатор для вывода авторов на которых подписан
     текущий пользователь.
     """
 
-    email = serializers.ReadOnlyField(source='author.email')
-    username = serializers.ReadOnlyField(source='author.username')
-    first_name = serializers.ReadOnlyField(source='author.first_name')
-    last_name = serializers.ReadOnlyField(source='author.last_name')
-    is_subscribed = serializers.SerializerMethodField()
-    recipes = SimpleRecipeSerializer(source='author.recipes', many=True)
+    recipes = SimpleRecipeSerializer(many=True)
     recipes_count = serializers.SerializerMethodField()
 
-    class Meta:
-        model = User
-        fields = ('email', 'id', 'username', 'first_name', 'last_name',
-                  'is_subscribed', 'recipes', 'recipes_count')
-
-    def get_is_subscribed(self, obj):
-        return Follow.objects.filter(
-            user=obj.user, author=obj.author
-        ).exists()
+    class Meta(UserSerializer.Meta):
+        fields = UserSerializer.Meta.fields + (
+            'recipes',
+            'recipes_count',
+        )
 
     def get_recipes_count(self, obj):
-        return obj.author.recipes.count()
+        return obj.recipes.count()
