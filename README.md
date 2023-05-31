@@ -10,6 +10,18 @@
 ```
 git clone https://github.com/Chezhin/foodgram-project-react.git
 ```
+Создайте и активируйте виртуальное окружение:
+```bash
+python -m venv venv
+Windows: source venv/Scripts/activate
+```
+Установите зависимости из файла requirements.txt:
+```bash
+python3 -m pip install --upgrade pip
+```
+```bash
+pip install -r requirements.txt
+```
 Перейдите в папку foodgram-project-react/infra
 ```
 cd foodgram-project-react/infra
@@ -35,12 +47,25 @@ docker-compose exec backend python manage.py collectstatic --no-input
 docker-compose exec backend python manage.py createsuperuser
 ```
 
-Суперюзер уже создан, поэтому эту команду можно пропустить
+Проект доступен по адресу [http://localhost/](http://localhost/)
 
-### Данные для входа:
+### Заполнение базы данных:
 
-Проект запущен и доступен по [адресу](http://84.201.140.189/)
+Необходимо добавить в базу данных теги и ингредиенты.
+Для этого войдите в [админ-зону](http://localhost/admin/)
+проекта под логином и паролем администратора.
 
-Почта: post@mail.ru Пароль: billkaulitz666
+Ингредиенты можно добавлять вручную поштучно или воспользоваться
+кнопкой для импорта файла.
+
+### Стек технологий:
+- Python 3
+- Django
+- Django Rest
+- PostgreSQL
+- React
+- Docker
+- nginx
+- gunicorn
 
 ### Автор: Руслан Чежин.
